@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/fragment_weather"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        android:background="@drawable/background_weather"
+        tools:context=".fragments.WeatherFragment">
+
+        <!-- Tên thành phố -->
+        <TextView
+            android:id="@+id/tv_cityName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Thành phố: Ha Noi"
+            android:textColor="#FFFFFF"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_marginTop="200dp"
+            android:layout_centerHorizontal="true" />
+
+        <!-- Biểu tượng thời tiết -->
+        <ImageView
+            android:id="@+id/iv_weatherIcon"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@id/tv_cityName"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:contentDescription="Weather Icon" />
+
+        <!-- Nhiệt độ -->
+        <TextView
+            android:id="@+id/tv_temperature"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nhiệt độ: °C"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_below="@id/iv_weatherIcon"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp" />
+
+        <!-- Mô tả thời tiết -->
+        <TextView
+            android:id="@+id/tv_weatherDescription"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mô tả: "
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:layout_below="@id/tv_temperature"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp" />
+
+        <!-- Spinner chọn thành phố -->
+        <Spinner
+            android:id="@+id/spinner_cities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="200dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="16dp" />
+
+
+        <!-- ProgressBar khi đang tải dữ liệu -->
+        <ProgressBar
+            android:id="@+id/progressBar"
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerInParent="true"
+            android:visibility="gone" />
+
+    </RelativeLayout>

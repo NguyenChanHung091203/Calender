@@ -66,4 +66,3 @@ dependencies {
     implementation ("com.facebook.android:facebook-android-sdk:[8,9)")
 
 }
-

@@ -114,7 +114,7 @@
                     android:background="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="USER NAME"
+                    android:text="TÊN TÀI KHOẢN"
                     android:textColor="@color/black"
                     android:textSize="10sp">
                 </TextView>
@@ -155,7 +155,7 @@
                     android:layout_marginTop="-62dp"
                     android:background="@color/white"
                     android:padding="2dp"
-                    android:text="EMAIL ADDRESS"
+                    android:text="EMAIL "
                     android:textColor="@color/black"
                     android:textSize="10sp">
                 </TextView>
@@ -201,7 +201,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:padding="2dp"
-                        android:text="PASSWORD"
+                        android:text="MẬT KHẨU"
                         android:textSize="10sp"
                         android:background="@color/white"
                         android:textColor="@color/black">
@@ -231,7 +231,7 @@
                 android:paddingTop="0dp"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="Sign Up"
+                android:text="Đăng kí"
                 android:textSize="26sp"
                 app:backgroundTint="@null"
                 android:background="@drawable/custom_btn">

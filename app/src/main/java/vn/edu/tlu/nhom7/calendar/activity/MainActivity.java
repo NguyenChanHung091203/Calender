@@ -21,10 +21,14 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import vn.edu.tlu.nhom7.calendar.R;
+
+import vn.edu.tlu.nhom7.calendar.activity.alarm.AlarmActivity;
 import vn.edu.tlu.nhom7.calendar.activity.home.CalendarFragment;
 import vn.edu.tlu.nhom7.calendar.activity.task.CreateTaskActivity;
 import vn.edu.tlu.nhom7.calendar.activity.task.TaskFragment;
 import vn.edu.tlu.nhom7.calendar.activity.user.UserProfile;
+import vn.edu.tlu.nhom7.calendar.activity.weather.WeatherFragment;
+
 
 public class MainActivity extends AppCompatActivity {
     public static final String CHANNEL_ID = "1";
@@ -52,22 +56,27 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
-                if(itemId == R.id.nav_home){
+                if (itemId == R.id.nav_home) {
                     loadFragment(new CalendarFragment(), false);
                 } else if (itemId == R.id.nav_taskManager) {
                     loadFragment(new TaskFragment(), false);
                 } else if (itemId == R.id.nav_userProfile) {
-//                    loadFragment(new UserProfileFragment(), false); Activity -> Fragment
-
                     Intent intent = new Intent(MainActivity.this, UserProfile.class);
                     startActivity(intent);
                     finish();
-                }
+                } else if (itemId == R.id.nav_weather) {
+                    loadFragment(new WeatherFragment(), false);
+                } else if (itemId == R.id.nav_alarm) { // Thêm case cho báo thức
+                    Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
+                    startActivity(intent);
+                    return true; // Ngăn việc xử lý thêm
+            }
                 return true;
             }
         });
         createNotificationChannel();
     }
+
     private void loadFragment (Fragment fragment, boolean isAppInitialized) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

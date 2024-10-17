@@ -52,7 +52,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="3"
                 android:gravity="start|bottom"
-                android:text="Welcome Back,"
+                android:text="Chào mừng bạn trở lại,"
                 android:textSize="25sp"
                 android:paddingBottom="5dp"
                 android:textColor="@color/white"
@@ -116,7 +116,7 @@
                     android:background="@color/white"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="EMAIL ADDRESS"
+                    android:text="EMAIL "
                     android:textColor="@color/black"
                     android:textSize="10sp">
                 </TextView>
@@ -168,7 +168,7 @@
                     android:layout_marginTop="-41dp"
                     android:background="@color/white"
                     android:padding="2dp"
-                    android:text="PASSWORD"
+                    android:text="MẬT KHẨU"
                     android:textColor="@color/black"
                     android:textSize="10sp">
                 </TextView>
@@ -193,7 +193,7 @@
                         android:layout_marginLeft="-2dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Remember me"
+                        android:text="Nhớ mật khẩu"
                         android:textSize="12sp">
                     </TextView>
                     <TextView
@@ -201,7 +201,7 @@
                         android:layout_marginLeft="37dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Forgot password?"
+                        android:text="Quên mật khẩu?"
                         android:textSize="12sp">
                     </TextView>
                 </LinearLayout>
@@ -249,7 +249,7 @@
                 android:paddingTop="0dp"
                 android:layout_height="50dp"
                 android:gravity="center"
-                android:text="Log in"
+                android:text="Đăng nhập"
                 android:textSize="26sp"
                 app:backgroundTint="@null"
                 android:background="@drawable/custom_btn">

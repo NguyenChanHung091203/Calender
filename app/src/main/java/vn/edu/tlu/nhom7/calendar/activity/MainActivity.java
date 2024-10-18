@@ -7,7 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
-
+import android.view.Menu;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,10 +24,13 @@ import vn.edu.tlu.nhom7.calendar.R;
 
 import vn.edu.tlu.nhom7.calendar.activity.alarm.AlarmActivity;
 import vn.edu.tlu.nhom7.calendar.activity.home.CalendarFragment;
+import vn.edu.tlu.nhom7.calendar.activity.timer.TimerActivity;
 import vn.edu.tlu.nhom7.calendar.activity.task.CreateTaskActivity;
 import vn.edu.tlu.nhom7.calendar.activity.task.TaskFragment;
 import vn.edu.tlu.nhom7.calendar.activity.user.UserProfile;
 import vn.edu.tlu.nhom7.calendar.activity.weather.WeatherFragment;
+import vn.edu.tlu.nhom7.calendar.activity.map.MapActivity;
+import androidx.appcompat.widget.Toolbar;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -35,12 +38,17 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
     private FrameLayout frameLayout;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+
+        // Thiết lập Toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         bottomNavigationView = findViewById(R.id.bottomNavView);
         frameLayout = findViewById(R.id.frameLayout);
@@ -66,18 +74,46 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 } else if (itemId == R.id.nav_weather) {
                     loadFragment(new WeatherFragment(), false);
-                } else if (itemId == R.id.nav_alarm) { // Thêm case cho báo thức
+                } else if (itemId == R.id.nav_alarm) {
                     Intent intent = new Intent(MainActivity.this, AlarmActivity.class);
                     startActivity(intent);
                     return true; // Ngăn việc xử lý thêm
-            }
+                } else if (itemId == R.id.nav_map) {  // Xử lý mở MapActivity
+                    Intent intent = new Intent(MainActivity.this, MapActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
                 return true;
             }
         });
+
         createNotificationChannel();
     }
 
-    private void loadFragment (Fragment fragment, boolean isAppInitialized) {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.nav_userProfile) {
+            // Chuyển đến trang Người Dùng
+            Intent intent = new Intent(MainActivity.this, UserProfile.class);
+            startActivity(intent);
+            return true;
+        } else if (id == R.id.action_timer) {
+            // Chuyển đến TimerActivity khi người dùng chọn "Bộ bấm giờ"
+            Intent intent = new Intent(MainActivity.this, TimerActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void loadFragment(Fragment fragment, boolean isAppInitialized) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         if (isAppInitialized) {

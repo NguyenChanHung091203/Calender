@@ -21,7 +21,9 @@ import vn.edu.tlu.nhom7.calendar.R;
 public class AlarmActivity extends AppCompatActivity {
 
     private TimePicker timePicker;
-    private Button btnSetAlarm;
+    private Button btnSetAlarm, btnStopAlarm;
+    private PendingIntent pendingIntent;
+    private AlarmManager alarmManager;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -30,11 +32,15 @@ public class AlarmActivity extends AppCompatActivity {
 
         timePicker = findViewById(R.id.timePicker);
         btnSetAlarm = findViewById(R.id.btn_set_alarm);
+        btnStopAlarm = findViewById(R.id.btn_stop_alarm);
 
-        // Cập nhật TimePicker để chọn định dạng 24 giờ
         timePicker.setIs24HourView(true);
 
+        // Khởi tạo AlarmManager
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
         btnSetAlarm.setOnClickListener(v -> setAlarm());
+        btnStopAlarm.setOnClickListener(v -> stopAlarm());
     }
 
     private void setAlarm() {
@@ -52,7 +58,7 @@ public class AlarmActivity extends AppCompatActivity {
         }
 
         Intent intent = new Intent(this, AlarmReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+        pendingIntent = PendingIntent.getBroadcast(
                 this,
                 0,
                 intent,
@@ -61,7 +67,6 @@ public class AlarmActivity extends AppCompatActivity {
                         : PendingIntent.FLAG_UPDATE_CURRENT
         );
 
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         if (alarmManager != null) {
             alarmManager.setExactAndAllowWhileIdle(
                     AlarmManager.RTC_WAKEUP,
@@ -74,5 +79,16 @@ public class AlarmActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Lỗi: Không thể cài đặt báo thức", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void stopAlarm() {
+        // Hủy báo thức
+        if (alarmManager != null && pendingIntent != null) {
+            alarmManager.cancel(pendingIntent);
+            Toast.makeText(this, "Báo thức đã được hủy", Toast.LENGTH_SHORT).show();
+        }
+
+        // Dừng chuông
+        AlarmReceiver.stopSound();
     }
 }

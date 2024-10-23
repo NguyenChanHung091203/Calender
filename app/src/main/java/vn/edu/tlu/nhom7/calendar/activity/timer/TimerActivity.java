@@ -1,12 +1,13 @@
-package vn.edu.tlu.nhom7.calendar.activity.timer;
+package vn.edu.tlu.nhom7.calendar.activity;
 
-import android.app.TimePickerDialog;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import vn.edu.tlu.nhom7.calendar.R;
@@ -21,6 +22,7 @@ public class TimerActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private boolean isRunning = false;
     private long timeLeftInMillis = DEFAULT_TIME_IN_MILLIS;
+    private long selectedTimeInMillis = DEFAULT_TIME_IN_MILLIS; // Lưu thời gian đã chọn
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,18 +58,39 @@ public class TimerActivity extends AppCompatActivity {
     }
 
     private void openTimePickerDialog() {
-        TimePickerDialog timePickerDialog = new TimePickerDialog(
-                this,
-                new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        timeLeftInMillis = (hourOfDay * 3600 + minute * 60) * 1000;
-                        updateTimerUI();
-                    }
-                },
-                0, 1, true // Giờ mặc định là 00:01 (1 phút)
-        );
-        timePickerDialog.show();
+        // Tạo một dialog tùy chỉnh
+        Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.dialog_set_time);
+
+        NumberPicker numberPickerHours = dialog.findViewById(R.id.number_picker_hours);
+        NumberPicker numberPickerMinutes = dialog.findViewById(R.id.number_picker_minutes);
+        NumberPicker numberPickerSeconds = dialog.findViewById(R.id.number_picker_seconds);
+
+        // Thiết lập giá trị cho các NumberPicker
+        numberPickerHours.setMinValue(0);
+        numberPickerHours.setMaxValue(23);
+        numberPickerMinutes.setMinValue(0);
+        numberPickerMinutes.setMaxValue(59);
+        numberPickerSeconds.setMinValue(0);
+        numberPickerSeconds.setMaxValue(59);
+
+        // Thêm nút xác nhận trong dialog
+        Button btnConfirm = dialog.findViewById(R.id.btn_confirm);
+        btnConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int hours = numberPickerHours.getValue();
+                int minutes = numberPickerMinutes.getValue();
+                int seconds = numberPickerSeconds.getValue();
+                // Cập nhật thời gian đã chọn
+                selectedTimeInMillis = (hours * 3600 + minutes * 60 + seconds) * 1000;
+                timeLeftInMillis = selectedTimeInMillis; // Cập nhật timeLeftInMillis
+                updateTimerUI();
+                dialog.dismiss(); // Đóng dialog
+            }
+        });
+
+        dialog.show(); // Hiện dialog
     }
 
     private void startTimer() {
@@ -82,21 +105,27 @@ public class TimerActivity extends AppCompatActivity {
             public void onFinish() {
                 isRunning = false;
                 btnStartReset.setText("Đặt lại");
+                Toast.makeText(TimerActivity.this, "Thời gian đã hết!", Toast.LENGTH_SHORT).show(); // Hiển thị thông báo Toast
+                timeLeftInMillis = selectedTimeInMillis; // Đặt lại thời gian về lựa chọn cũ
+                updateTimerUI(); // Cập nhật UI để hiển thị lại thời gian đã chọn
+                btnSetTime.setEnabled(true); // Kích hoạt lại nút Đặt thời gian
             }
         }.start();
 
         isRunning = true;
         btnStartReset.setText("Dừng");
+        btnSetTime.setEnabled(false); // Vô hiệu hóa nút Đặt thời gian
     }
 
     private void resetTimer() {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
-        timeLeftInMillis = DEFAULT_TIME_IN_MILLIS;
+        timeLeftInMillis = selectedTimeInMillis; // Đặt lại thời gian về lựa chọn cũ
         updateTimerUI();
         isRunning = false;
         btnStartReset.setText("Bắt đầu");
+        btnSetTime.setEnabled(true); // Kích hoạt lại nút Đặt thời gian
     }
 
     private void updateTimerUI() {

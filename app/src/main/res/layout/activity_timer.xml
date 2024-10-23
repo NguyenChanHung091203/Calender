@@ -1,45 +1,39 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:orientation="vertical"
+    android:gravity="center_horizontal"
+  >
 
-    <!-- Toolbar -->
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
+    <TextView
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
+        android:layout_height="50dp"
         android:background="?attr/colorPrimary"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:layout_alignParentTop="true" />
+        android:text="Bộ bấm giờ"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        android:textSize="24sp"
+        />
 
-    <!-- Hiển thị thời gian còn lại -->
     <TextView
         android:id="@+id/tv_timer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="48sp"
-        android:text="00:01:00"
-        android:layout_centerInParent="true"
-        android:textColor="@android:color/black" />
+        android:layout_gravity="center"/>
 
-    <!-- Nút chọn thời gian -->
+
+
     <Button
         android:id="@+id/btn_set_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chọn thời gian"
-        android:layout_above="@id/tv_timer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="16dp" />
+        android:text="Đặt thời gian"/>
 
-    <!-- Nút bắt đầu/đặt lại -->
     <Button
         android:id="@+id/btn_start_reset"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bắt đầu"
-        android:layout_below="@id/tv_timer"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
-</RelativeLayout>
+        android:text="Bắt đầu"/>
+</LinearLayout>

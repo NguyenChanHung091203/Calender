@@ -21,17 +21,16 @@ import androidx.fragment.app.FragmentTransaction;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import vn.edu.tlu.nhom7.calendar.R;
-
 import vn.edu.tlu.nhom7.calendar.activity.alarm.AlarmActivity;
 import vn.edu.tlu.nhom7.calendar.activity.home.CalendarFragment;
-import vn.edu.tlu.nhom7.calendar.activity.timer.TimerActivity;
 import vn.edu.tlu.nhom7.calendar.activity.task.CreateTaskActivity;
 import vn.edu.tlu.nhom7.calendar.activity.task.TaskFragment;
+import vn.edu.tlu.nhom7.calendar.activity.TimerActivity; // Đảm bảo import đúng package
+
 import vn.edu.tlu.nhom7.calendar.activity.user.UserProfile;
 import vn.edu.tlu.nhom7.calendar.activity.weather.WeatherFragment;
 import vn.edu.tlu.nhom7.calendar.activity.map.MapActivity;
 import androidx.appcompat.widget.Toolbar;
-
 
 public class MainActivity extends AppCompatActivity {
     public static final String CHANNEL_ID = "1";
@@ -105,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         } else if (id == R.id.action_timer) {
-            // Chuyển đến TimerActivity khi người dùng chọn "Bộ bấm giờ"
             Intent intent = new Intent(MainActivity.this, TimerActivity.class);
             startActivity(intent);
             return true;

@@ -4,9 +4,9 @@
     TODO: Remove or change this placeholder text
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <string name="facebook_app_id">1452233002067710</string>
-    <string name="fb_login_protocol_scheme">fb545443f9eea56eeac491f70d86904e5e</string>
-    <string name="facebook_client_token">1452233002067710</string>
+    <string name="facebook_app_id">957841432805574</string>
+    <string name="fb_login_protocol_scheme">fb957841432805574</string>
+    <string name="facebook_client_token">957841432805574</string>
 
 
 </resources>

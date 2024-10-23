@@ -11,9 +11,7 @@ import android.view.Menu;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -23,9 +21,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import vn.edu.tlu.nhom7.calendar.R;
 import vn.edu.tlu.nhom7.calendar.activity.alarm.AlarmActivity;
 import vn.edu.tlu.nhom7.calendar.activity.home.CalendarFragment;
-import vn.edu.tlu.nhom7.calendar.activity.task.CreateTaskActivity;
+
 import vn.edu.tlu.nhom7.calendar.activity.task.TaskFragment;
-import vn.edu.tlu.nhom7.calendar.activity.TimerActivity; // Đảm bảo import đúng package
+import vn.edu.tlu.nhom7.calendar.activity.TimerActivity;
 
 import vn.edu.tlu.nhom7.calendar.activity.user.UserProfile;
 import vn.edu.tlu.nhom7.calendar.activity.weather.WeatherFragment;

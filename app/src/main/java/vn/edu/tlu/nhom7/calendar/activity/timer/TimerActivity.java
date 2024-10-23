@@ -12,13 +12,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import vn.edu.tlu.nhom7.calendar.R;
 
+
 import java.util.Locale;
 
 public class TimerActivity extends AppCompatActivity {
     private static final long DEFAULT_TIME_IN_MILLIS = 60000; // 60 giây
 
     private TextView tvTimer;
-    private Button btnSetTime, btnStartReset;
+    private Button btnSetTime, btnStartReset, btnCancel;
     private CountDownTimer countDownTimer;
     private boolean isRunning = false;
     private long timeLeftInMillis = DEFAULT_TIME_IN_MILLIS;
@@ -88,6 +89,14 @@ public class TimerActivity extends AppCompatActivity {
                 updateTimerUI();
                 dialog.dismiss(); // Đóng dialog
             }
+        });
+            // Nút hủy
+            Button btnCancel = dialog.findViewById(R.id.btn_cancel);
+             btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss(); // Đóng dialog mà không cập nhật thời gian
+                }
         });
 
         dialog.show(); // Hiện dialog

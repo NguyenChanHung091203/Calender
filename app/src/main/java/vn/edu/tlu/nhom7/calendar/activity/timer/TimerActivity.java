@@ -1,40 +1,79 @@
-package vn.edu.tlu.nhom7.calendar.activity;
+package vn.edu.tlu.nhom7.calendar.activity.timer;
 
 import android.app.Dialog;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.NumberPicker;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import java.util.Locale;
 import vn.edu.tlu.nhom7.calendar.R;
 
-import java.util.Locale;
-
 public class TimerActivity extends AppCompatActivity {
-    private static final long DEFAULT_TIME_IN_MILLIS = 60000; // 60 giây
-
+    private static final long DEFAULT_TIME_IN_MILLIS = 60000;
+    private Button btnSetTime;
+    private ImageButton btnPlay, btnPause, btnStop;
     private TextView tvTimer;
-    private Button btnSetTime, btnStartReset;
+    private Spinner spinnerMusic;
     private CountDownTimer countDownTimer;
     private boolean isRunning = false;
-    private long timeLeftInMillis = DEFAULT_TIME_IN_MILLIS;
-    private long selectedTimeInMillis = DEFAULT_TIME_IN_MILLIS; // Lưu thời gian đã chọn
+    private long timeLeftInMillis = 0;
+    private long selectedTimeInMillis = DEFAULT_TIME_IN_MILLIS;
+    private MediaPlayer mediaPlayer;
+    private Dialog finishDialog;
+    private int selectedMusicResId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timer);
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         tvTimer = findViewById(R.id.tv_timer);
+        btnPlay = findViewById(R.id.btn_play);
+        btnPause = findViewById(R.id.btn_pause);
+        btnStop = findViewById(R.id.btn_stop);
+        spinnerMusic = findViewById(R.id.spinner_music);
         btnSetTime = findViewById(R.id.btn_set_time);
-        btnStartReset = findViewById(R.id.btn_start_reset);
+
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.music_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerMusic.setAdapter(adapter);
+        spinnerMusic.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                        selectedMusicResId = R.raw.samsung_alarm_sound;
+                        break;
+                    case 1:
+                        selectedMusicResId = R.raw.nevergonnagiveyouup;
+                        break;
+                    case 2:
+                        selectedMusicResId = R.raw.whitenight;
+                        break;
+                    case 3:
+                        selectedMusicResId = R.raw.iphone_alarm_ring;
+                        break;
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+        timeLeftInMillis = selectedTimeInMillis;
+        updateTimerUI();
 
         btnSetTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,31 +81,17 @@ public class TimerActivity extends AppCompatActivity {
                 openTimePickerDialog();
             }
         });
-
-        btnStartReset.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isRunning) {
-                    resetTimer();
-                } else {
-                    startTimer();
-                }
-            }
-        });
-
-        updateTimerUI();
+        btnPlay.setOnClickListener(v -> startTimer());
+        btnPause.setOnClickListener(v -> togglePause());
+        btnStop.setOnClickListener(v -> stopTimer());
     }
 
     private void openTimePickerDialog() {
-        // Tạo một dialog tùy chỉnh
         Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_set_time);
-
         NumberPicker numberPickerHours = dialog.findViewById(R.id.number_picker_hours);
         NumberPicker numberPickerMinutes = dialog.findViewById(R.id.number_picker_minutes);
         NumberPicker numberPickerSeconds = dialog.findViewById(R.id.number_picker_seconds);
-
-        // Thiết lập giá trị cho các NumberPicker
         numberPickerHours.setMinValue(0);
         numberPickerHours.setMaxValue(23);
         numberPickerMinutes.setMinValue(0);
@@ -74,27 +99,37 @@ public class TimerActivity extends AppCompatActivity {
         numberPickerSeconds.setMinValue(0);
         numberPickerSeconds.setMaxValue(59);
 
-        // Thêm nút xác nhận trong dialog
-        Button btnConfirm = dialog.findViewById(R.id.btn_confirm);
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
+        // Thiết lập giá trị mặc định cho NumberPicker
+        numberPickerHours.setValue((int) (selectedTimeInMillis / 3600000));
+        numberPickerMinutes.setValue((int) ((selectedTimeInMillis % 3600000) / 60000));
+        numberPickerSeconds.setValue((int) ((selectedTimeInMillis % 60000) / 1000));
+
+        dialog.findViewById(R.id.btn_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 int hours = numberPickerHours.getValue();
                 int minutes = numberPickerMinutes.getValue();
                 int seconds = numberPickerSeconds.getValue();
-                // Cập nhật thời gian đã chọn
                 selectedTimeInMillis = (hours * 3600 + minutes * 60 + seconds) * 1000;
-                timeLeftInMillis = selectedTimeInMillis; // Cập nhật timeLeftInMillis
+                timeLeftInMillis = selectedTimeInMillis;
                 updateTimerUI();
-                dialog.dismiss(); // Đóng dialog
+                dialog.dismiss();
             }
         });
-
-        dialog.show(); // Hiện dialog
+        dialog.findViewById(R.id.btn_cancel).setOnClickListener(v -> dialog.dismiss());
+        dialog.show();
     }
 
     private void startTimer() {
-        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+        if (selectedTimeInMillis <= 0) {
+            return; // Không làm gì nếu thời gian đã đặt là 0
+        }
+
+        if (timeLeftInMillis == 0) {
+            timeLeftInMillis = selectedTimeInMillis;
+        }
+
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 500) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
@@ -104,28 +139,75 @@ public class TimerActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 isRunning = false;
-                btnStartReset.setText("Đặt lại");
-                Toast.makeText(TimerActivity.this, "Thời gian đã hết!", Toast.LENGTH_SHORT).show(); // Hiển thị thông báo Toast
-                timeLeftInMillis = selectedTimeInMillis; // Đặt lại thời gian về lựa chọn cũ
-                updateTimerUI(); // Cập nhật UI để hiển thị lại thời gian đã chọn
-                btnSetTime.setEnabled(true); // Kích hoạt lại nút Đặt thời gian
+                showFinishDialog();
+                playSound();
+                resetTimer();
+                // Hiện lại nút Play và ẩn nút Pause, Stop
+                btnPlay.setVisibility(View.VISIBLE);
+                btnPause.setVisibility(View.GONE);
+                btnStop.setVisibility(View.GONE);
             }
         }.start();
 
         isRunning = true;
-        btnStartReset.setText("Dừng");
-        btnSetTime.setEnabled(false); // Vô hiệu hóa nút Đặt thời gian
+        btnPlay.setVisibility(View.GONE);
+        btnPause.setVisibility(View.VISIBLE);
+        btnStop.setVisibility(View.VISIBLE);
     }
 
-    private void resetTimer() {
+    private void togglePause() {
+        if (isRunning) {
+            countDownTimer.cancel();
+            isRunning = false;
+            btnPause.setImageResource(R.drawable.ic_play);
+        } else {
+            startTimer();
+            btnPause.setImageResource(R.drawable.ic_pause);
+        }
+    }
+
+    private void stopTimer() {
         if (countDownTimer != null) {
             countDownTimer.cancel();
         }
-        timeLeftInMillis = selectedTimeInMillis; // Đặt lại thời gian về lựa chọn cũ
+        resetTimer();
+        btnPause.setImageResource(R.drawable.ic_pause);
+        btnPlay.setVisibility(View.VISIBLE);
+        btnPause.setVisibility(View.GONE);
+        btnStop.setVisibility(View.GONE);
+    }
+
+    private void resetTimer() {
+        timeLeftInMillis = selectedTimeInMillis;
         updateTimerUI();
         isRunning = false;
-        btnStartReset.setText("Bắt đầu");
-        btnSetTime.setEnabled(true); // Kích hoạt lại nút Đặt thời gian
+    }
+
+    private void showFinishDialog() {
+        finishDialog = new Dialog(this);
+        finishDialog.setContentView(R.layout.dialog_finish_timer);
+        finishDialog.findViewById(R.id.btn_stop).setOnClickListener(v -> {
+            stopSound();
+            finishDialog.dismiss();
+        });
+        finishDialog.setCancelable(false);
+        finishDialog.show();
+    }
+
+    private void playSound() {
+        if (mediaPlayer == null && selectedMusicResId != 0) {
+            mediaPlayer = MediaPlayer.create(this, selectedMusicResId);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.start();
+        }
+    }
+
+    private void stopSound() {
+        if (mediaPlayer != null) {
+            mediaPlayer.stop();
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
     }
 
     private void updateTimerUI() {
@@ -135,13 +217,5 @@ public class TimerActivity extends AppCompatActivity {
 
         String timeFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
         tvTimer.setText(timeFormatted);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if (countDownTimer != null) {
-            countDownTimer.cancel();
-        }
     }
 }

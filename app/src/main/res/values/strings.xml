@@ -8,5 +8,12 @@
     <string name="fb_login_protocol_scheme">fb957841432805574</string>
     <string name="facebook_client_token">957841432805574</string>
 
+    <string-array name="music_array">
+        <item>Samsung Alarm</item>
+        <item>Never Gonna Give You Up</item>
+        <item>White Night</item>
+        <item>Iphone Alarm</item>
+
+    </string-array>
 
 </resources>

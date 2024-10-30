@@ -17,12 +17,22 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.Locale;
 import vn.edu.tlu.nhom7.calendar.R;
 
+<<<<<<< HEAD
+=======
+
+import java.util.Locale;
+
+>>>>>>> 800bb24b9e3d76b7dba458135b0993d1f0779512
 public class TimerActivity extends AppCompatActivity {
     private static final long DEFAULT_TIME_IN_MILLIS = 60000;
     private Button btnSetTime;
     private ImageButton btnPlay, btnPause, btnStop;
     private TextView tvTimer;
+<<<<<<< HEAD
     private Spinner spinnerMusic;
+=======
+    private Button btnSetTime, btnStartReset, btnCancel;
+>>>>>>> 800bb24b9e3d76b7dba458135b0993d1f0779512
     private CountDownTimer countDownTimer;
     private boolean isRunning = false;
     private long timeLeftInMillis = 0;
@@ -116,8 +126,21 @@ public class TimerActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+<<<<<<< HEAD
         dialog.findViewById(R.id.btn_cancel).setOnClickListener(v -> dialog.dismiss());
         dialog.show();
+=======
+            // Nút hủy
+            Button btnCancel = dialog.findViewById(R.id.btn_cancel);
+             btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss(); // Đóng dialog mà không cập nhật thời gian
+                }
+        });
+
+        dialog.show(); // Hiện dialog
+>>>>>>> 800bb24b9e3d76b7dba458135b0993d1f0779512
     }
 
     private void startTimer() {

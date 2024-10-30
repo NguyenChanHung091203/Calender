@@ -85,19 +85,21 @@ public class MapActivity extends AppCompatActivity {
     }
 
     private void getUserLocation() {
-        fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if (location != null) {
-                    userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
-                    updateUserLocationMarker();  // Cập nhật marker vị trí người dùng
-                    mapView.getController().setZoom(15.0);
-                    mapView.getController().setCenter(userLocation);
-                } else {
-                    Toast.makeText(MapActivity.this, "Không thể lấy vị trí hiện tại", Toast.LENGTH_SHORT).show();
+        if (checkLocationPermission()) {
+            fusedLocationClient.getLastLocation().addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if (location != null) {
+                        userLocation = new GeoPoint(location.getLatitude(), location.getLongitude());
+                        updateUserLocationMarker();  // Cập nhật marker vị trí người dùng
+                        mapView.getController().setZoom(15.0);
+                        mapView.getController().setCenter(userLocation);
+                    } else {
+                        Toast.makeText(MapActivity.this, "Không thể lấy vị trí hiện tại", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     // Cập nhật marker vị trí người dùng
@@ -105,6 +107,7 @@ public class MapActivity extends AppCompatActivity {
         if (userMarker == null) {
             userMarker = new Marker(mapView);
             userMarker.setTitle("Vị trí của bạn");
+            userMarker.setIcon(getResources().getDrawable(R.drawable.ic_user_location)); // Thêm biểu tượng cho marker
             mapView.getOverlays().add(userMarker);
         }
         userMarker.setPosition(userLocation);

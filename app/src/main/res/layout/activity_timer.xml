@@ -16,7 +16,7 @@
         android:textSize="24sp"
         />
 
-<<<<<<< HEAD
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -97,24 +97,10 @@
 
     </LinearLayout>
 
-=======
-    <TextView
-        android:id="@+id/tv_timer"
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:textSize="48sp"
-        android:gravity="center"
-        android:textColor="@android:color/black" />
 
-    <Button
-        android:id="@+id/btn_set_time"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:text="Đặt thời gian"
-        android:layout_marginBottom="16dp"
-        android:backgroundTint="?attr/colorPrimary"
-        android:textColor="@android:color/white"
-        android:elevation="4dp" />
+
+
+
 
     <Button
         android:id="@+id/btn_start_reset"
@@ -124,5 +110,5 @@
         android:backgroundTint="@android:color/holo_green_dark"
         android:textColor="@android:color/white"
         android:elevation="4dp" />
->>>>>>> 800bb24b9e3d76b7dba458135b0993d1f0779512
+
 </LinearLayout>

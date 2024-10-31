@@ -17,22 +17,19 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.Locale;
 import vn.edu.tlu.nhom7.calendar.R;
 
-<<<<<<< HEAD
-=======
+
 
 import java.util.Locale;
 
->>>>>>> 800bb24b9e3d76b7dba458135b0993d1f0779512
+
 public class TimerActivity extends AppCompatActivity {
     private static final long DEFAULT_TIME_IN_MILLIS = 60000;
     private Button btnSetTime;
     private ImageButton btnPlay, btnPause, btnStop;
     private TextView tvTimer;
-<<<<<<< HEAD
+
     private Spinner spinnerMusic;
-=======
-    private Button btnSetTime, btnStartReset, btnCancel;
->>>>>>> 800bb24b9e3d76b7dba458135b0993d1f0779512
+
     private CountDownTimer countDownTimer;
     private boolean isRunning = false;
     private long timeLeftInMillis = 0;
@@ -64,15 +61,18 @@ public class TimerActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0:
-                        selectedMusicResId = R.raw.samsung_alarm_sound;
+                        selectedMusicResId = R.raw.digital_alarm_clock;
                         break;
                     case 1:
-                        selectedMusicResId = R.raw.nevergonnagiveyouup;
+                        selectedMusicResId = R.raw.super_idol;
                         break;
                     case 2:
-                        selectedMusicResId = R.raw.whitenight;
+                        selectedMusicResId = R.raw.samsung_alarm_sound;
                         break;
                     case 3:
+                        selectedMusicResId = R.raw.nevergonnagiveyouup;
+                        break;
+                    case 4:
                         selectedMusicResId = R.raw.iphone_alarm_ring;
                         break;
                 }
@@ -126,10 +126,10 @@ public class TimerActivity extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
-<<<<<<< HEAD
+
         dialog.findViewById(R.id.btn_cancel).setOnClickListener(v -> dialog.dismiss());
         dialog.show();
-=======
+
             // Nút hủy
             Button btnCancel = dialog.findViewById(R.id.btn_cancel);
              btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -139,8 +139,8 @@ public class TimerActivity extends AppCompatActivity {
                 }
         });
 
-        dialog.show(); // Hiện dialog
->>>>>>> 800bb24b9e3d76b7dba458135b0993d1f0779512
+        dialog.show();
+
     }
 
     private void startTimer() {
@@ -165,7 +165,7 @@ public class TimerActivity extends AppCompatActivity {
                 showFinishDialog();
                 playSound();
                 resetTimer();
-                // Hiện lại nút Play và ẩn nút Pause, Stop
+
                 btnPlay.setVisibility(View.VISIBLE);
                 btnPause.setVisibility(View.GONE);
                 btnStop.setVisibility(View.GONE);

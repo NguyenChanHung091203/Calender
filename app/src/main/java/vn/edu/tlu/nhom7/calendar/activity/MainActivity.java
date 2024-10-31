@@ -22,13 +22,13 @@ import com.google.android.material.navigation.NavigationView;
 import vn.edu.tlu.nhom7.calendar.R;
 import vn.edu.tlu.nhom7.calendar.activity.alarm.AlarmActivity;
 import vn.edu.tlu.nhom7.calendar.activity.home.CalendarFragment;
+
 import vn.edu.tlu.nhom7.calendar.activity.task.TaskFragment;
-<<<<<<< HEAD
 import vn.edu.tlu.nhom7.calendar.activity.timer.TimerActivity;
 
-=======
+
 import vn.edu.tlu.nhom7.calendar.activity.map.MapActivity;
->>>>>>> 800bb24b9e3d76b7dba458135b0993d1f0779512
+
 import vn.edu.tlu.nhom7.calendar.activity.user.UserProfile;
 import vn.edu.tlu.nhom7.calendar.activity.weather.WeatherFragment;
 

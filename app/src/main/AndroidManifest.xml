@@ -49,6 +49,7 @@
         <activity
             android:name=".activity.task.CreateTaskActivity"
             android:exported="false" />
+
         <activity
             android:name=".activity.task.ShowTaskActivity"
             android:exported="false" />
